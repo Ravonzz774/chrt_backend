@@ -4,6 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+import get_timetable
+
+
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
@@ -139,7 +143,7 @@ def profile():
         return jsonify({"message": "Unauthorized"}), 401
 
     try:
-        user_id = serializer.loads(session_token, max_age=3600)
+        user_id = serializer.loads(session_token, max_age=5184000)
         user = User.query.get(user_id)
         if not user:
             raise Exception()
@@ -188,7 +192,7 @@ def select_groups():
         return jsonify({"message": "Unauthorized"}), 401
 
     try:
-        user_id = serializer.loads(session_token, max_age=3600)
+        user_id = serializer.loads(session_token, max_age=5184000)
         user = User.query.get(user_id)
         if not user:
             raise Exception()
@@ -213,7 +217,7 @@ def get_my_groups():
         return jsonify({"message": "Unauthorized"}), 401
 
     try:
-        user_id = serializer.loads(session_token, max_age=3600)
+        user_id = serializer.loads(session_token, max_age=5184000)
         user = User.query.get(user_id)
         if not user:
             raise Exception()
@@ -240,7 +244,7 @@ def delete_groups():
         return jsonify({"message": "Unauthorized"}), 401
 
     try:
-        user_id = serializer.loads(session_token, max_age=3600)
+        user_id = serializer.loads(session_token, max_age=5184000)
         user = User.query.get(user_id)
         if not user:
             raise Exception()
@@ -255,6 +259,10 @@ def delete_groups():
     except Exception:
         return jsonify({"message": "Invalid session"}), 401
 
+
+@app.route("/api/timetable", methods=["GET"])
+def get_tt():
+    return get_timetable.get()
 
 if __name__ == "__main__":
     with app.app_context():
