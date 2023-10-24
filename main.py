@@ -32,48 +32,7 @@ class User(db.Model):
     groups = db.Column(db.PickleType, nullable=True, default=[])
 
 
-valid_groups = [
-    "1263",
-    "1264",
-    "1259",
-    "1260",
-    "1262",
-    "1265",
-    "1257",
-    "1258",
-    "1261",
-    "1245",
-    "1227",
-    "1229",
-    "1221",
-    "1243",
-    "1220",
-    "1246",
-    "1230",
-    "1228",
-    "1244",
-    "1253",
-    "1254",
-    "1232",
-    "1233",
-    "1223",
-    "1222",
-    "1255",
-    "1231",
-    "1234",
-    "1256",
-    "1249",
-    "1250",
-    "1238",
-    "1224",
-    "1237",
-    "1235",
-    "1236",
-    "1251",
-    "1252",
-    "1239",
-    "1240",
-]
+
 
 
 @app.route("/api/register", methods=["POST"])
@@ -169,21 +128,6 @@ def select_groups():
     if not groups:
         return jsonify({"message": "Missing groups list"}), 400
 
-    # Check if all selected groups are valid
-
-    invalid_groups = [group for group in groups if group not in valid_groups]
-
-    if invalid_groups:
-        return (
-            jsonify(
-                {
-                    "message": "Invalid groups: {}".format(
-                        ", ".join(str(group) for group in invalid_groups)
-                    )
-                }
-            ),
-            400,
-        )
 
     # Получаем идентификатор пользователя из куки
     session_token = request.cookies.get("session_token")
