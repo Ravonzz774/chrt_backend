@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
 import get_timetable
+import get_news
 
 
 
@@ -207,6 +208,10 @@ def delete_groups():
 @app.route("/api/timetable", methods=["GET"])
 def get_tt():
     return get_timetable.get()
+
+@app.route("/api/news", methods=["GET"])
+def news():
+    return get_news.get()
 
 if __name__ == "__main__":
     with app.app_context():
